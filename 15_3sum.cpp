@@ -56,7 +56,7 @@ vector<vector<int> > threeSum2(vector<int> &num)
         {
             int second = num[low];
             int third = num[high];
-            if(first+second+third = 0)
+            if(first+second+third == 0)
             {
                 vector<int> v;
                 v.push_back(first);
@@ -67,6 +67,8 @@ vector<vector<int> > threeSum2(vector<int> &num)
                     low++;
                 while(high > 0 && num[high] == num[high-1])
                     high--;
+                low++;
+                high--;
             }else if(first + second + third > 0){
                 while(high > 0 && num[high] == num[high-1])
                     high--;
@@ -74,7 +76,7 @@ vector<vector<int> > threeSum2(vector<int> &num)
             }else{
                 while(low < n && num[low] == num[low+1])
                     low++;
-                low++
+                low++;
             }
         }
     }

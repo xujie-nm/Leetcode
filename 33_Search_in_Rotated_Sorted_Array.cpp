@@ -18,7 +18,7 @@ int search(int A[], int n, int target){
     
     int high, low, mid;
     if(pos != -1){
-        if(target > A[0])
+        if(target >= A[0])
         {
             high = pos;
             low = 0;
@@ -32,8 +32,8 @@ int search(int A[], int n, int target){
         high = n-1;
         low = 0;
     }
-
-    while(high > low){
+    
+    while(high >= low){
         mid = (low + high)/2;
         if(target > A[mid])
             low = mid + 1;
@@ -47,7 +47,7 @@ int search(int A[], int n, int target){
 
 int main(int argc, const char *argv[])
 {
-    int a[] = {1, 3} ;
-    cout << "pos is: " << search(a, 2, 1) << endl;
+    int a[] = {4, 5, 6, 7, 0, 1, 2} ;
+    cout << "pos is: " << search(a, 7, 2) << endl;
     return 0;
 }

@@ -25,12 +25,15 @@ int nthUglyNumber(int n){
         int temp = min(res[i2]*2, min(res[i3]*3, res[i5]*5));
         res.push_back(temp);
         //判断取得是哪个，把这个后移
-        if(temp == res[i2]*2)
+        if(temp == res[i2]*2){
             i2++;
-        if(temp == res[i3]*3)
+        }
+        if(temp == res[i3]*3){
             i3++;
-        if(temp == res[i5]*5)
+        }
+        if(temp == res[i5]*5){
             i5++;
+        }
     }
     return res[res.size()-1];
 }
@@ -38,6 +41,5 @@ int nthUglyNumber(int n){
 int main(int argc, const char *argv[])
 {
     cout << nthUglyNumber(12) << endl;
-    cout << nthUglyNumber2(12) << endl;
     return 0;
 }

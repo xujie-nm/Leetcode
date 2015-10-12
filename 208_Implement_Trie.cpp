@@ -14,11 +14,6 @@ class TrieNode{
             
         }
         
-        ~TrieNode(){
-            delete[] next_letter;
-            delete[] has_word;
-        }
-
         TrieNode* next_letter[26];
         bool has_word[26];
 };

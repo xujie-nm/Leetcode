@@ -23,6 +23,10 @@ class Trie{
         Trie(){
             root = new TrieNode();
         }
+
+        ~Trie(){
+            delete root;
+        }
         
         // Insert a word into the trie
         void insert(string word){

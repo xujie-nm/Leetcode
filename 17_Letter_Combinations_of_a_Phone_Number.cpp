@@ -29,6 +29,34 @@ vector<string> letterCombinations(string digits){
     return result;
 }
 
+// Backtracking
+void helper(vector<string>& map, string& digits, vector<string>& res, int cur, string temp){
+    if(cur == digits.size()){
+        res.push_back(temp);
+        return;
+    }
+    for (int i = 0; i < map[digits[cur]-'0'].size(); i++) {
+        temp += map[digits[cur]-'0'][i];
+        helper(map, digits, res, cur+1, temp);
+        temp = temp.substr(0, temp.size()-1);
+    }
+}
+
+vector<string> letterCombinations2(string digits){
+    vector<string> res;
+    if(digits.size() == 0)
+    {
+        return res;
+    }
+    
+    vector<string> map{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs",
+    "tuv", "wxyz"};
+    int cur = 0;
+    string temp = "";
+    helper(map, digits, res, cur, temp);
+    return res;
+}
+
 int main(int argc, const char *argv[])
 {
     vector<string> res = letterCombinations("245");

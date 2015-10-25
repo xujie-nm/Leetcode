@@ -4,6 +4,7 @@
 using namespace std;
 
 bool isVaild(const vector<int> &columns, int col){
+    // 判断竖着的和斜着的不冲突
     for(int c = 0; c<col; ++c){
         if((columns[c] == columns[col])
           || (col-c == columns[col] - columns[c])
@@ -16,6 +17,7 @@ bool isVaild(const vector<int> &columns, int col){
 
 int totalNQueens(vector<int> &columns, int col){
     if(col == columns.size())
+        // 此时columns里是一种解
         return 1;
     int total = 0;
 

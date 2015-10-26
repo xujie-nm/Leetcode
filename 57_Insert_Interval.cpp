@@ -21,7 +21,9 @@ vector<Interval> merge(vector<Interval> &intervals){
         return res;
     sort(intervals.begin(), intervals.end(), comp);
     res.push_back(intervals[0]);
-
+    // 把当前的interval和res中的最后一个比较，
+    // 如果有重合处理，替换
+    // 没重合直接push
     for (int i = 1; i < intervals.size(); i++) {
         if(res.back().end >= intervals[i].start){
             int start = res.back().start;

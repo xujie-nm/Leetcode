@@ -55,6 +55,60 @@ vector<int> spiralOrder(vector<vector<int> > &matrix){
     return res;
 }
 
+// 递归
+
+#define RIGHT 1
+#define DOWN 2
+#define LEFT 3
+#define UP 4
+
+void helper(vector<vector<int> > &matrix, vector<int> &res, int towards, int i, int j){
+    if(i < 0 || i >= matrix.size() || j < 0 || j >= matrix[0].size())
+        return;
+    if(matrix[i][j] == INT_MIN)
+        return;
+    else{
+        res.push_back(matrix[i][j]);
+        matrix[i][j] = INT_MIN;
+    }
+    
+    if(towards == RIGHT){
+        if(j < matrix[0].size()-1 && matrix[i][j+1] != INT_MIN)
+            helper(matrix, res, towards, i, j+1);
+        else if(i < matrix.size()-1)
+            helper(matrix, res, DOWN, i+1, j);
+        else
+            return;
+    }else if(towards == DOWN){
+        if(i < matrix.size()-1 && matrix[i+1][j] != INT_MIN)
+            helper(matrix, res, towards, i+1, j);
+        else if(j > 0)
+            helper(matrix, res, LEFT, i, j-1);
+        else 
+            return;
+    }else if(towards == LEFT){
+        if(j > 0 && matrix[i][j-1] != INT_MIN)
+            helper(matrix, res, towards, i, j-1);
+        else if(i > 0)
+            helper(matrix, res, UP, i-1, j);
+        else 
+            return;
+    }else if(towards == UP){
+        if(i > 0 && matrix[i-1][j] != INT_MIN)
+            helper(matrix, res, towards, i-1, j);
+        else if(j < matrix[0].size()-1)
+            helper(matrix, res, RIGHT, i, j+1);
+        else 
+            return;
+    }
+}
+
+vector<int> spiralOrder2(vector<vector<int> > &matrix){
+    vector<int> res;
+    helper(matrix, res, RIGHT, 0, 0);
+    return res;
+}
+
 int main(int argc, const char *argv[])
 {
     vector<vector<int> > matrix;
@@ -76,7 +130,7 @@ int main(int argc, const char *argv[])
 
     vector<int> res;
     cout << matrix.size() << endl;
-    res = spiralOrder(matrix);
+    res = spiralOrder2(matrix);
     for(vector<int>::iterator it = res.begin(); it != res.end(); ++it){
         cout << *it << " ";    
     }

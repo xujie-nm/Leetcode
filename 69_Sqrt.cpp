@@ -8,7 +8,9 @@ int sqrt(int x){
     double rr = double(x);
 
     while(lr < rr && (rr - lr > 0.00001)){
-        double temp = (lr + rr)/2.0;
+        // 把这里的 (lr+rr)/2.0 改为 rr + (lr - rr)/2.0
+        // 这样不仅仅消除了溢出的可能性，而且加快了计算速度
+        double temp =  rr + (lr - rr)/2.0;
         if(temp * temp == x)
             return int(temp);
         else if(temp * temp > x){
@@ -21,6 +23,6 @@ int sqrt(int x){
 
 int main(int argc, const char *argv[])
 {
-    cout << sqrt(2147395599) << endl;
+    cout << sqrt(21473955) << endl;
     return 0;
 }

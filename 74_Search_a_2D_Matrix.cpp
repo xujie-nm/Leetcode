@@ -24,7 +24,7 @@ bool searchMatrix(vector<vector<int> > &matrix, int target){
     int low = 0;
     int high = m-1;
     while(low < high){
-        int mid = (low + high)/2;
+        int mid = low + (high - low)/2;
         if(matrix[i_tar][mid] == target){
             return true;
         }
@@ -39,6 +39,7 @@ bool searchMatrix(vector<vector<int> > &matrix, int target){
     }
     return false;
 }
+
 
 int main(int argc, const char *argv[])
 {

@@ -3,6 +3,7 @@
 #include <vector>
 using namespace std;
 
+// O(m*n)space
 int minDis(int a, int b, int c){
     if(a < b){
         if(a < c)
@@ -47,8 +48,29 @@ int minDistance(string word1, string word2){
     return temp[n][m];
 }
 
+// O(n)space
+int minDistance2(string word1, string word2){
+    int n1 = word1.size(), n2 = word2.size();
+    vector<int> dp(n2+1, 0);
+    for (int j = 1; j <= n2; j++) 
+        dp[j] = j;
+    int last_tmp, cur_tmp;
+    for (int i = 1; i <= n1; i++) {
+        last_tmp = dp[0];
+        dp[0] = i;
+        for (int j = 1; j <= n2; j++) {
+            cur_tmp = dp[j];
+            dp[j] = min(min(dp[j]+1, dp[j-1]+1),
+                        last_tmp + (int)(word1[i-1] != word2[j-1]));
+            last_tmp = cur_tmp;
+        }
+    }
+    return dp[n2];
+}
+
 int main(int argc, const char *argv[])
 {
     cout << minDistance("coffee", "cafe") << endl;
+    cout << minDistance2("coffee", "cafe") << endl;
     return 0;
 }

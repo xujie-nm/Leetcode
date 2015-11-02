@@ -34,12 +34,45 @@ void sortColors(int A[], int n){
     }
 }
 
+// 4ms
+// 把0放左边，2放右边，1放中间
+void sortColors2(vector<int> &nums){
+    if(nums.size() < 2) 
+        return;
+    int left = 0;
+    int right = nums.size()-1;
+    while(left <= right && nums[left] == 0) 
+        left++;
+    while(right >= left && nums[right] == 2)
+        right--;
+    if(left >= right)
+        return;
+    int tempLeft = left;
+    while(tempLeft < right){
+        if(nums[tempLeft] == 0){
+            swap(nums[tempLeft], nums[left]);
+            tempLeft++;
+            left++;
+        }else if(nums[tempLeft] == 2){
+            swap(nums[tempLeft], nums[right]);
+            right--;
+            while(nums[right] == 2) 
+                right--;
+            if(nums[tempLeft] == 1)
+                tempLeft++;
+        }else
+            tempLeft++;
+    }
+    if(nums[tempLeft] == 0)
+        swap(nums[tempLeft], nums[left]);
+}
+
 int main(int argc, const char *argv[])
 {
-    int A[] = {0, 0, 2, 2, 0, 0, 0, 1, 1, 1, 2, 1, 0};
-    sortColors(A, 13);
+    vector<int> A{2,1};
+    sortColors2(A);
 
-    for (int i = 0; i < 13; i++) {
+    for (int i = 0; i < A.size(); i++) {
         cout << A[i] << " ";
     }
     cout << endl;

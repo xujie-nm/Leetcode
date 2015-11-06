@@ -16,6 +16,7 @@ void get_i_subset(vector<vector<int> >&res, vector<int> &temp, vector<int> &S, i
     }
 }
 
+
 vector<vector<int> > subsets(vector<int> &S){
     vector<vector<int> >res;
     sort(S.begin(), S.end());
@@ -27,6 +28,28 @@ vector<vector<int> > subsets(vector<int> &S){
     return res;
 }
 
+// Faster
+void get_i_subset2(vector<vector<int> > &res, vector<int> &temp, vector<int> &S, int sub_len, int ind){
+    if(sub_len == 0){
+        res.push_back(temp);
+        return;
+    }
+    for (int i = ind; i < S.size() - sub_len + 1; i++) {
+        temp[temp.size() - sub_len] = S[i];
+        get_i_subset2(res, temp, S, sub_len-1, i+1);
+    }
+}
+
+vector<vector<int> > subsets2(vector<int> &S){
+    sort(S.begin(), S.end());
+    vector<vector<int> > res;
+    for (int i = 0; i <= S.size(); i++) {
+        vector<int> temp(i);
+        get_i_subset2(res, temp, S, i, 0);
+    }
+    return res;
+}
+
 int main(int argc, const char *argv[])
 {
     vector<int> S;
@@ -35,7 +58,7 @@ int main(int argc, const char *argv[])
     S.push_back(0);
 
     vector<vector<int> > res;
-    res = subsets(S);
+    res = subsets2(S);
 
     for (int i = 0; i < res.size(); i++) {
         for (int j = 0; j < res[i].size(); j++) {

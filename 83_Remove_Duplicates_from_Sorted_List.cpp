@@ -15,8 +15,8 @@ using namespace std;
 class Solution {
 public:
     ListNode *deleteDuplicates(ListNode *head) {
-        if(head == NULL)
-            return NULL;
+        if(head == NULL || head->next == NULL)
+            return head;
         ListNode* temp_head = head;
         while(temp_head->next != NULL){
             if(temp_head->val == temp_head->next->val){

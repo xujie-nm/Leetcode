@@ -48,6 +48,34 @@ ListNode* deleteDuplicates(ListNode *head){
     return head;
 }
 
+//faster
+ListNode* deleteDuplicates2(ListNode* head){
+    ListNode* tmp = new ListNode(0);
+    ListNode *p1, *p2;
+
+    tmp->next = head;
+
+    p1 = tmp;
+    p2 = p1->next;
+    while(p2){
+        while(p2->next && p2->next->val == p2->val)
+            p2 = p2->next;
+
+        // 说明有重复 
+        if(p1->next != p2){
+            p2 = p2->next;
+            p1->next = p2;
+        }else{// 没有重复
+            p1 = p2;
+            p2 = p2->next;
+        }
+    }
+
+    ListNode* ret = tmp->next;
+    delete tmp;
+    return ret;
+}
+
 int main(int argc, const char *argv[])
 {
     ListNode l1(1); 

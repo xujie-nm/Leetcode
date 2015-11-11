@@ -4,6 +4,9 @@
 #include <stdlib.h>
 using namespace std;
 
+// numDecodings(s) = s[size-1]!=0 ? numDecodings(s-1) : 0 + 
+// s.substr(size-2, 2) <= 26 && s.substr(size-2, 2) >= 10 ? numDecoding(s-2) : 0
+
 int numDecodings(string s){
     if(s.size() == 0 || (s.size() == 1 && s[0] == '0'))
         return 0;

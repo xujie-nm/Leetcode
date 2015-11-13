@@ -10,6 +10,7 @@ struct TreeNode {
    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+// recursive
 vector<TreeNode*> helper(int low, int high);
 
 vector<TreeNode*> generateTrees(int n){
@@ -44,6 +45,55 @@ vector<TreeNode*> helper(int low, int high){
         }
     }
     return res;
+}
+
+// dp
+vector<TreeNode*> generateTrees(int n){
+    vector<TreeNode*> tmp;
+    vector<TreeNode*> ret;
+    tmp.push_back(NULL);
+    ret.push_back(new TreeNode(1));
+    if(!n) 
+        return tmp;
+
+    // 每次都插入最大值到先前构造好的树中
+    for (int i = 2; i <= n; i++) {
+        tmp.clear();
+        for (int j = 0; j < ret.size(); j++) {
+            // 首先先把这个最大值放到根节点
+            TreeNode *orgTree = ret[j];
+            TreeNode *newNode = new TreeNode(i);
+            newNode->left = copy(orgTree);
+            tmp.push_back(newNode);
+
+            // 然后再其他地方选择插入这个最大的值 
+            TreeNode *orgRunner = orgTree;
+            while(orgRunner){
+                newNode = new TreeNode(i);
+                newNode->left = orgRunner->right;
+                orgRunner->right = newNode;
+                tmp.push_back(copy(orgTree));
+
+                // 删除刚才插入的值
+                orgRunner->right = orgRunner->right->left;
+
+                // 下一步
+                orgRunner = orgRunner->right;
+            }
+        }
+        ret = tmp;
+    }
+    return ret;
+}
+
+TreeNode* copy(TreeNode *root){
+    TreeNode *ret = NULL;
+    if(root){
+        ret = new TreeNode(root->val);
+        ret->left = copy(root->left);
+        ret->right = copy(root->right);
+    }
+    return ret;
 }
 
 void outTree(TreeNode *root){

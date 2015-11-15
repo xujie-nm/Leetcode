@@ -24,7 +24,8 @@ bool isInterleave(string s1, string s2, string s3){
         else
             break;
     }   
-
+    
+    // 这里存在两个字符串多个字符相同的情况
     for (int i = 1; i <= m; i++) {
         for (int j = 1; j <= n; j++) {
             if(s1[i-1] == s3[i+j-1])

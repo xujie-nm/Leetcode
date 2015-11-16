@@ -70,6 +70,53 @@ void recoverTree(TreeNode* root){
     cur->val = temp;
 }
 
+// faster recusive
+typedef TreeNode* TreeNodePtr;
+
+void dfs(TreeNodePtr root, 
+         TreeNodePtr& pre, 
+         TreeNodePtr& first, 
+         TreeNodePtr& second){
+    if(root == NULL)
+        return;
+
+    dfs(root->left, pre, first, second);
+
+    // 访问root节点
+    if(pre != NULL && pre->val > root->val){
+        if(first == NULL){
+            // 遇到第一个被调换的元素
+            first = pre;
+            // 如果两个被调换的元素相邻，这样正好
+            second = root;
+        }else{
+            // 遇到第二个被调换的元素，此时不相邻
+            second = root;
+        }
+    }
+
+    pre = root;
+
+    dfs(root->right, pre, first, second);
+}
+
+void recoverTree2(TreeNodePtr root){
+    if(root == NULL)
+        return ;
+
+    TreeNodePtr pre = NULL;// 前一个访问的节点
+    TreeNodePtr first = NULL; // 交换元素的第一个
+    TreeNodePtr second = NULL; // 交换元素的第二个
+
+    dfs(root, pre, first, second);
+
+    // 交换第一节点和第二节点
+    int temp = first->val;
+    first->val = second->val;
+    second->val = temp;
+}
+
+
 int main(int argc, const char *argv[])
 {
     TreeNode t1(2);
@@ -79,12 +126,12 @@ int main(int argc, const char *argv[])
     TreeNode t5(5);
     t1.left = &t2;
     t1.right = &t3;
-    //t3.right = &t4;
-    //t4.right = &t5;
+    t3.right = &t4;
+    t4.right = &t5;
 
     inOrder(&t1);
     cout << "ok" << endl;
-    recoverTree(&t1);
+    recoverTree2(&t1);
     cout << "ok" << endl;
 
     inOrder(&t1);

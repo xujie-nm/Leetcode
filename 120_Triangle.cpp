@@ -13,12 +13,16 @@ int minimumTotal(vector<vector<int> >&triangle){
             int first = j == 0 ? 0 : j-1;
             int second = j == triangle[i].size()-1 ? j-1 : j;
             
+            // 重新计算triangle
+            // 计算方式是当前值加上上一层相邻的最小值
             triangle[i][j] = triangle[i][j] + min(triangle[i-1][first], triangle[i-1][second]);
         }
     }
+
     int min = triangle[triangle.size() - 1][0];
      for (int j = 0; j < triangle[triangle.size()-1].size(); j++) {
          if(triangle[triangle.size()-1][j] < min)
+             // 找到最后一层的最小值
              min = triangle[triangle.size()-1][j];
      }
      

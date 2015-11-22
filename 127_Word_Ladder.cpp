@@ -35,7 +35,49 @@ int ladderLength(string beginWord, string endWord, unordered_set<string>& wordDi
     return 0;
 }
 
+// faster solution
+// 和126新方法一样的思想
+int ladderLengthHelper(unordered_set<string> &beginWords,
+                       unordered_set<string> &endWords,
+                       unordered_set<string> &wordList,
+                       int level){
+    if(beginWords.empty())
+        return 0;
+    if(beginWords.size() > endWords.size())
+        return ladderLengthHelper(endWords, beginWords, wordList, level);
+    unordered_set<string> tempWords;
 
+    for(auto it = beginWords.begin();
+             it != beginWords.end();
+             ++it){
+        string word = *it;
+        for(auto ch = word.begin(); ch != word.end(); ++ch){
+            char temp = *ch;
+            for(*ch = 'a'; *ch <= 'z'; ++(*ch)){
+                if(*ch != temp)
+                    if(endWords.find(word) != endWords.end())
+                        return level + 1;
+                    else if (wordList.find(word) != wordList.end()){
+                        wordList.erase(word);
+                        tempWords.insert(word);
+                    }
+            }
+            *ch = temp;
+        }
+    }
+    return ladderLengthHelper(endWords, tempWords, wordList, level+1);
+}
+
+int ladderLength2(string beginWord, string endWord, unordered_set<string> &wordList){
+    if(beginWord == endWord)
+        return 1;
+    unordered_set<string> beginWords, endWords;
+    beginWords.insert(beginWord);
+    endWords.insert(endWord);
+    wordList.erase(beginWord);
+    wordList.erase(endWord);
+    return ladderLengthHelper(beginWords, endWords, wordList, 1);
+}
 int main(int argc, const char *argv[])
 {
     unordered_set<string> dict;
@@ -50,6 +92,6 @@ int main(int argc, const char *argv[])
     //dict.insert("b");
     //dict.insert("c");
 
-    cout << ladderLength("hit", "cog", dict) << endl;
+    cout << ladderLength2("hit", "cog", dict) << endl;
     return 0;
 }

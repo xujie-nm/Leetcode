@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_set>
 #include <map>
+#include <unordered_map>
 #include <queue>
 using namespace std;
 
@@ -104,6 +105,106 @@ findLadders(string start, string end, unordered_set<string> &dict){
     return ladders;
 }
 
+
+// faster solution
+// 利用这个函数来找到nexts
+bool findLaddersHelper(unordered_set<string> &beginWords,
+                       unordered_set<string> &endWords,
+                       unordered_set<string> &dict,
+                       unordered_map<string, vector<string> > &nexts,
+                       bool &IsBegin){
+    IsBegin = !IsBegin;
+    if(beginWords.empty())
+        return false;
+    // 这一步是降低复杂度的
+    if(beginWords.size() > endWords.size())
+        return findLaddersHelper(endWords, beginWords, dict, nexts, IsBegin);
+    // 第一步，先把dict中的words1和words2去掉
+    for(auto it = beginWords.begin();
+             it != beginWords.end();
+             ++it){
+        dict.erase(*it);
+    }
+    for(auto it = endWords.begin();
+             it != endWords.end();
+             ++it){
+        dict.erase(*it);
+    }
+
+    unordered_set<string> tempWords;
+    bool reach = false;
+    for(auto it = beginWords.begin();
+             it != beginWords.end();
+             ++it){
+        string word = *it;
+        // 下面的两个for是改变word中的一个字母，
+        // 看改变后的word是否存在于words2或者dict中
+        for(auto ch = word.begin();
+                 ch != word.end();
+                 ++ch){
+            char temp = *ch;
+            for(*ch = 'a'; *ch <= 'z'; ++(*ch)){
+                if(*ch != temp)
+                    if(endWords.find(word) != endWords.end()){
+                        // 到了终点
+                        reach = true;
+                        // 这一步是为了防止nexts里出现环
+                        // 如果是单纯地找next会出现重复，这样就会有环
+                        // 通过一个bool值来限定，把重复的去掉
+                        IsBegin ? nexts[*it].push_back(word) : nexts[word].push_back(*it);
+                    }else if(!reach && dict.find(word) != dict.end()){
+                        // 如果没到最后终点，但是这个单词是中间的一个，继续
+                        tempWords.insert(word);
+                        IsBegin ? nexts[*it].push_back(word) : nexts[word].push_back(*it);
+                    }
+            }
+            *ch = temp;
+        }
+    }
+    return reach || findLaddersHelper(endWords, tempWords, dict, nexts, IsBegin);
+}
+
+// 回溯找路径
+void getPath(string beginWord,
+             string &endWord,
+             unordered_map<string, vector<string> > &nexts,
+             vector<string> &path,
+             vector<vector<string> > &paths){
+    if(beginWord == endWord)
+        paths.push_back(path);
+    else{
+        for(auto it = nexts[beginWord].begin();
+                 it != nexts[beginWord].end();
+                 ++it){
+            path.push_back(*it);
+            getPath(*it, endWord, nexts, path, paths);
+            path.pop_back();
+        }
+    }
+}
+
+vector<vector<string> > findLadders2(string beginWord, string endWord, unordered_set<string> &wordList){
+    vector<vector<string> > paths;
+    vector<string> path(1, beginWord);
+    if(beginWord == endWord){
+        paths.push_back(path);
+        return paths;
+    }
+
+    unordered_set<string> words1, words2;
+    words1.insert(beginWord);
+    words2.insert(endWord);
+
+    unordered_map<string, vector<string> > nexts;
+    bool words1IsBegin = false;
+
+    if(findLaddersHelper(words1, words2, wordList, nexts, words1IsBegin))
+        getPath(beginWord, endWord, nexts, path, paths);
+
+    return paths;
+}
+
+
 int main(int argc, const char *argv[])
 {
     string start = "hit";
@@ -116,7 +217,7 @@ int main(int argc, const char *argv[])
     dict.insert("log");
 
     vector<vector<string> > res;
-    res = findLadders(start, end, dict);
+    res = findLadders2(start, end, dict);
 
     for (int i = 0; i < res.size(); i++) {
         for (int j = 0; j < res[i].size(); j++) {

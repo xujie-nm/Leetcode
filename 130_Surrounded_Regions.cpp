@@ -4,6 +4,9 @@
 #include <queue>
 using namespace std;
 
+// 从边缘出发，宽度优先搜索
+// 如果从边缘为O的出发，
+// 最后所有搜索后到不了的那些为O的区域为surrounded
 void helper(vector<vector<char> > &board, vector<vector<int> > &temp, int i, int j, int m, int n){
     queue<pair<int, int> > q;
     q.push(make_pair(i, j));
@@ -56,6 +59,52 @@ void solve(vector<vector<char> > &board){
     return;
 }
 
+// faster BFS
+void helper(vector<vector<char> > &vec, int i, int j, int row, int col){
+    if(vec[i][j] == 'O'){
+        vec[i][j] = '1';
+        if(i > 1)
+            helper(vec, i-1, j, row, col);
+        if(i+1 < row)
+            helper(vec, i+1, j, row, col);
+        if(j > 1)
+            helper(vec, i, j-1, row, col);
+        if(j+1 < col)
+            helper(vec, i, j+1, row, col);
+    }
+}
+
+void solve2(vector<vector<char> > &board){
+    // int i,j;
+    // 如果这里提前定义了i，j
+    // 那么在下面的for中就少定义两个局部变量
+    // 最后的运行时间少4ms
+    int row = board.size();
+    if(row == 0)
+        return;
+    int col = board[0].size();
+
+    for (int i = 0; i < row; i++) {
+        helper(board, i, 0, row, col);
+        if(col > 1)
+            helper(board, i, col-1, row, col);
+    }
+    for (int j = 1; j < col; j++) {
+        helper(board, 0, j, row, col);
+        if(row > 1)
+            helper(board, row-1, j, row, col);
+    }
+
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            if(board[i][j] == 'O')
+                board[i][j] = 'X';
+            else if(board[i][j] == '1')
+                board[i][j] = 'O';
+        }
+    }
+}
+
 void print(const vector<vector<char> > &board){
     for (int i = 0; i < board.size(); i++) {
         for (int j = 0; j < board[i].size(); j++) {
@@ -95,7 +144,7 @@ int main(int argc, const char *argv[])
     //board.push_back(b4);
 
     print(board);
-    solve(board);
+    solve2(board);
     print(board);
     return 0;
 }

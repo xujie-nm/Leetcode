@@ -3,6 +3,8 @@
 #include <unordered_map>
 using namespace std;
 
+// map<key, pair<list::iterator, value> >
+// list<k>
 class LRUCache{
     public:
         LRUCache(int capacity):size(capacity){};

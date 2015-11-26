@@ -44,6 +44,7 @@ vector<int> postorderTraversal2(TreeNode *root){
         TreeNode* cur = p.first;
         if(cur == NULL)
             continue;
+        // LRN
         if(p.second){
             temp.push(make_pair(cur, false));
             temp.push(make_pair(cur->right, true));

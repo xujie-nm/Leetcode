@@ -28,47 +28,67 @@ ListNode* sortList(ListNode *head){
     return node.next;
 }
 
-void Helper(ListNode* head, ListNode* tail){
-    if(head->next == tail)
-        return;
-    //partition
-    ListNode* pre = head;
-    ListNode* cur = head->next;
-    ListNode* pivot = cur;
-    while(cur->next != NULL && cur->next != tail){
-        //if cut is not tail, no stop
-        if(pivot->val > cur->next->val){
-            ListNode* temp = pre->next;
-            pre->next = cur->next;
-            cur->next = cur->next->next;
-            pre->next->next = temp;
+// merge sort
+ListNode* mergeTwoList(ListNode* l1, ListNode* l2){
+    if(l1 == NULL)
+        return l2;
+    else if(l2 == NULL)
+        return l1;
+    ListNode* head  = new ListNode(0);
+    ListNode* temp = head;
+    while(l1 && l2){
+        if(l1->val < l2->val){
+            temp->next = l1;
+            temp = temp->next;
+            l1 = l1->next;
+        }else{
+            temp->next = l2;
+            temp = temp->next;
+            l2 = l2->next;
         }
-        else
-            cur = cur->next;
     }
-    Helper(head, pivot);
-    //if val is equal and pivot->next is not tail
-    //go next
-    while(pivot->next != tail && pivot->next->val == pivot->val)
-        pivot = pivot->next;
-    if(pivot->next != tail)
-        Helper(pivot, tail);
+
+    if(l1 != NULL){
+        temp->next = l1;
+    }else if(l2 != NULL){
+        temp->next = l2;
+    }
+    return head->next;
 }
 
 ListNode* sortList2(ListNode* head){
-    ListNode* p = new ListNode(0);
-    p->next = head;
-    Helper(p, NULL);
-    return p->next;
+    if(!head || !head->next)
+        return head;
+
+    ListNode *slow = head;
+    ListNode *fast = head;
+    while(fast->next && fast->next->next){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    ListNode* leftHalf = head;
+    ListNode* rightHalf = slow->next;
+    slow->next = NULL;
+    ListNode* left = sortList2(leftHalf);
+    ListNode* right = sortList2(rightHalf);
+    head = mergeTwoList(left, right);
+    return head;
 }
 
 int main(int argc, const char *argv[])
 {
     ListNode n1(2);
-    ListNode n2(1);
-    ListNode n3(3);
+    ListNode n2(4);
+    ListNode n3(1);
+    ListNode n4(3);
+    ListNode n5(0);
+    ListNode n6(-1);
     n1.next = &n2;
     n2.next = &n3;
+    n3.next = &n4;
+    n4.next = &n5;
+    n5.next = &n6;
 
     ListNode* res = sortList2(&n1);
     

@@ -50,6 +50,54 @@ ListNode *detectCycle2(ListNode *head){
     return NULL;
 }
 
+// space O(1)
+ListNode* reverse(ListNode *root){
+    if(root && root->next){
+        ListNode *next = root->next, *nextNext = root->next->next;
+        root->next = NULL;
+        while(next){
+            next->next = root;
+            root = next;
+            next = nextNext;
+            nextNext = next ? next->next : NULL;
+        }
+    }
+    return root;
+}
+
+void reorderList(ListNode* head){
+    // 计算链表的大小
+    int n = 0;
+    ListNode *temp = head;
+    while(temp){
+        temp = temp->next;
+        n++;
+    }
+    if(n <= 2)
+        return;
+
+    // 把后半部分翻转
+    int half = (n+3)/2 -1;
+    temp = head;
+    while(half){
+        temp = temp->next;
+        half--;
+    }
+    temp = reverse(temp);
+
+    // 合并
+    ListNode *tempNext = temp->next;
+    while(temp){
+        temp->next = head->next;
+        head->next = temp;
+        head = temp->next;
+        temp = tempNext;
+        tempNext = temp ? temp->next : NULL;
+    }
+    if(head)
+        head->next = NULL;
+}
+
 int main(int argc, const char *argv[])
 {
     ListNode n1(1);

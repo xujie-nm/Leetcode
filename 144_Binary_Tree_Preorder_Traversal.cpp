@@ -21,6 +21,7 @@ vector<int> preorderTraversal(TreeNode *root){
         TreeNode * p = temp.top();
         temp.pop();
         res.push_back(p->val);
+        // 栈，先入右，在入左
         if(p->right != NULL)
             temp.push(p->right);
         if(p->left != NULL)

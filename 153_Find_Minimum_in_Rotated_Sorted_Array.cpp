@@ -12,10 +12,14 @@ int findMin(vector<int> &nums){
     if(nums.size() < 3)
         return Min;
     while(low < high){
-        int mid = (low+high)/2;
+        int mid = low + (high-low)/2;
+        // 如果中间的大于当前最小值
+        // 说明最小的区间在右边
         if(nums[mid] > Min){
             low = mid+1;
         }else{
+        // 如果中间的小于当前最小值
+        // 说明最小区间在左边
             Min = min(Min, nums[mid]);
             high = mid - 1;
         }

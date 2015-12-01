@@ -4,6 +4,7 @@
 #include <vector>
 using namespace std;
 
+// easy understand
 int maxProduct(vector<int> &nums){
     int Max = nums[0];
     if(nums.size() == 1)

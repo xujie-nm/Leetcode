@@ -18,6 +18,9 @@ int getLength(ListNode *head){
     return size;
 }
 
+// 先找到两个链表的长度，
+// 然后让两个链表从相同长处的位置出发，
+// 当节点地址相同时，就是交集的起点
 ListNode* getIntersectionNode(ListNode *headA, ListNode *headB){
     int lengthA = getLength(headA);
     int lengthB = getLength(headB);

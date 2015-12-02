@@ -8,7 +8,7 @@ int findPeakElement(vector<int> &nums){
     int left = 0;
     int right = nums.size()-1;
     while(left <= right){
-        int mid = (left + right)/2;
+        int mid = left+(right-left)/2;//防止溢出
         if(mid < len-1 && nums[mid+1] > nums[mid])
             left = mid+1;
         else
@@ -17,6 +17,7 @@ int findPeakElement(vector<int> &nums){
             else
                 return mid;
     }
+    return -1;
 }
 
 int main(int argc, const char *argv[])

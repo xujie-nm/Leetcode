@@ -5,6 +5,7 @@
 #include <vector>
 using namespace std;
 
+// 求出非排序数组，在有序时相邻元素最大的差值
 int maximumGap(vector<int> &nums){
     int n = nums.size();
     if(nums.size() <= 1)
@@ -40,7 +41,7 @@ int maximumGap(vector<int> &nums){
         gap = max(gap, buckMin[i] - pre);
         pre = buckMax[i];
     }
-    
+   
     return gap;
 }
 

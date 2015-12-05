@@ -23,6 +23,7 @@ int calculateMinimumHP(vector<vector<int> > &dungeon){
                 //如果是最后一列的话
                 dp[i][j] = max(1, dp[i+1][j] - dungeon[i][j]);
             else
+                //用两个方向中的最小血量对当前血量做操作
                 dp[i][j] = max(1, min(dp[i][j+1], dp[i+1][j])-dungeon[i][j]);
         }
         

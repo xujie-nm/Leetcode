@@ -41,6 +41,35 @@ vector<int> rightSideView(TreeNode *root){
     return res;
 }
 
+// new method, recursive
+int treeHeight(TreeNode* root){
+    if(root != NULL){
+        return 1 + max(treeHeight(root->left), treeHeight(root->right));
+    }else
+        return 0;
+}
+
+void helper(TreeNode* root, vector<int>& res, int height, int Height){
+    if(root != NULL){
+        if(res[height] == INT_MIN)
+            res[height] = root->val;
+        if(height == Height-1)
+            return;
+        helper(root->right, res, height+1, Height);
+        helper(root->left, res, height+1, Height);
+    }
+}
+
+vector<int> rightSideView2(TreeNode* root){
+    int height = treeHeight(root);
+    vector<int> res(height, INT_MIN);
+    if(res.size() == 0)
+        return res;
+
+    helper(root, res, 0, height);
+    return res;
+}
+
 int main(int argc, const char *argv[])
 {
     TreeNode n1(1);
@@ -48,13 +77,15 @@ int main(int argc, const char *argv[])
     TreeNode n3(3);
     TreeNode n4(4);
     TreeNode n5(5);
+    TreeNode n6(6);
     n1.left = &n2;
     n1.right = &n3;
     n2.right = &n5;
     n3.right = &n4;
+    n5.right = & n6;
 
     vector<int> res;
-    res = rightSideView(&n1);
+    res = rightSideView2(&n1);
     for (int i = 0; i < res.size(); i++) {
         cout << res[i] << " ";
     };

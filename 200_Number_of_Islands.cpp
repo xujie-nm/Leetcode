@@ -3,6 +3,7 @@
 #include <vector>
 using namespace std;
 
+// 从四个方向出发
 void fillIslands(vector<vector<char> > &grid, vector<vector<bool> > &visit, int i, int j){
     visit[i][j] = true;
     if(i-1 >= 0 && grid[i-1][j] == '1' && !visit[i-1][j]){

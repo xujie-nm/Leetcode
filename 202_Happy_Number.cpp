@@ -15,6 +15,8 @@ int getNext(int n){
     return sum;
 }
 
+// 如果不是happy Number，不使用hash跳出
+// 可能就会出现死循环
 bool isHappy(int n){
     unordered_map<int, int> hash;
     

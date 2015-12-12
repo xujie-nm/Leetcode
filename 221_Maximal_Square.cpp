@@ -56,6 +56,25 @@ int maximalSquare(vector<vector<char> > &matrix){
     return maxA;
 }
 
+int maximalSquare2(vector<vector<char> > &matrix){
+   if(matrix.size() == 0) 
+       return 0;
+   int m = matrix.size();
+   int n = matrix[0].size();
+   int res = INT_MIN;
+   vector<vector<int> > dp(m+1, vector<int>(n+1, 0));
+
+   for (int i = 1; i <= m; i++) {
+       for (int j = 1; j <= n; j++) {
+           if(matrix[i-1][j-1] == '1'){
+               dp[i][j] = min(min(dp[i-1][j], dp[i][j-1]), dp[i-1][j-1]) + 1;
+               res = max(res, dp[i][j]);
+           }
+       }
+   }
+   return res*res;
+}
+
 int main(int argc, const char *argv[])
 {
     vector<vector<char> > matrix;
@@ -106,5 +125,6 @@ int main(int argc, const char *argv[])
     cout << "matrix.size: " << matrix.size() << endl;
     cout << "matrix.size: " << matrix[0].size() << endl;
     cout << maximalSquare(matrix) << endl;
+    cout << maximalSquare2(matrix) << endl;
     return 0;
 }

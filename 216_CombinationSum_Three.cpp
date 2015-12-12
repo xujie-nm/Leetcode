@@ -10,7 +10,7 @@ bool backtracking(vector<vector<int> > &res, vector<int> &temp, set<int> &visite
     if(curSum == tar){
         if(temp.size() == num){
             res.push_back(temp);
-            return false;
+            return true;
         }
         return false;
     }

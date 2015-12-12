@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 using namespace std;
-
+// 堆排序
 void adjust(vector<int> &nums, int begin, int end){
     int left = begin*2;
     int right = begin*2+1;
@@ -37,21 +38,27 @@ int findKthLargest(vector<int>&nums, int k){
     return nums[0];
 }
 
+// use STL method
+int findKthLargest2(vector<int>&nums, int k){
+    make_heap(nums.begin(), nums.end());
+    while(--k){
+        pop_heap(nums.begin(), nums.end());
+        nums.pop_back();
+    }
+    return nums[0];
+}
+
 int main(int argc, const char *argv[])
 {
     vector<int> nums;
-    nums.push_back(3);
+    //nums.push_back(3);
     nums.push_back(2);
     nums.push_back(1);
-    nums.push_back(5);
-    nums.push_back(6);
-    nums.push_back(4);
+    //nums.push_back(5);
+    //nums.push_back(6);
+    //nums.push_back(4);
 
-    cout << findKthLargest(nums, 1) << endl; 
+    cout << findKthLargest2(nums, 2) << endl; 
     cout << findKthLargest(nums, 2) << endl; 
-    cout << findKthLargest(nums, 3) << endl; 
-    cout << findKthLargest(nums, 4) << endl; 
-    cout << findKthLargest(nums, 5) << endl; 
-    cout << findKthLargest(nums, 6) << endl; 
     return 0;
 }

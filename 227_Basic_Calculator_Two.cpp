@@ -5,6 +5,7 @@
 #include <stack>
 using namespace std;
 
+// not very elegent
 int calculate(string s){
      string last;
      stack<char> temp;
@@ -96,6 +97,40 @@ int calculate(string s){
          }
      }
     return temp1.top();
+}
+
+int calculate2(string s){
+    int res = 0, curRes = 0;
+    char op = '+';
+    for (int pos = s.find_first_not_of(' '); pos < s.size();
+         pos = s.find_first_not_of(' ', pos)) {
+        if(isdigit(s[pos])){
+            int tmp = s[pos] - '0';
+            while(++pos < s.size() && isdigit(s[pos]))
+                tmp = tmp*10 + s[pos] - '0';
+            switch(op){
+                case '+':
+                    curRes += tmp;
+                    break;
+                case '-':
+                    curRes -= tmp;
+                    break;
+                case '*':
+                    curRes *= tmp;
+                    break;
+                case '/':
+                    curRes /= tmp;
+                    break;
+            }
+        }else{
+            if(s[pos] == '+' || s[pos] == '-'){
+                res += curRes;
+                curRes = 0;
+            }
+            op = s[pos++];
+        }
+    }
+    return res + curRes;
 }
 
 int main(int argc, const char *argv[])

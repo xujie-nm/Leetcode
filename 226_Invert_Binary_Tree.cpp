@@ -28,6 +28,8 @@ TreeNode* invertTree2(TreeNode *root){
     while(!Stack.empty()){
         TreeNode* temp = Stack.top();
         Stack.pop();
+        // 依次遍历节点
+        // 并交换其左右子树
         TreeNode* swap = temp->left;
         temp->left = temp->right;
         temp->right = swap;

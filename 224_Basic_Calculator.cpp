@@ -87,12 +87,57 @@ int calculate(string s){
             if(num.size() != 0)
             {
                 temp1.push(atoi(num.c_str()));
-      //          cout << atoi(num.c_str()) << endl;
                 num = "";
             }
         }
     }
     return temp1.top();
+}
+
+// two stack
+int calculate2(string s){
+    stack<int> nums, ops;
+    int num = 0;
+    int res = 0;
+    // 因为只有加减运算，所以一个标识符就可以解决
+    int sign = 1;
+
+    for(char c : s){
+        if(isdigit(c)){
+            // 产生当前这个数
+            num = num*10 + c - '0';
+        }else{
+            res += sign * num;
+            num = 0;
+            switch(c){
+                case '+':
+                    sign = 1;
+                    break;
+                case '-':
+                    sign = -1;
+                    break;
+                case '(':
+                    // 如果遇到了（，说明需要新开始一个普通表达式
+                    // 把之前的状态存储到栈中
+                    nums.push(res);
+                    ops.push(sign);
+                    res = 0;
+                    sign = 1;
+                    break;
+                case ')':
+                    // 如果遇到了）， 说明刚完成了之前的的普通表达式
+                    // 恢复之前的状态
+                    if(ops.size() > 0){
+                        res = ops.top() * res + nums.top();
+                        ops.pop();
+                        nums.pop();
+                    }
+                    break;
+            }
+        }
+    }
+    res += sign * num;
+    return res;
 }
 
 int main(int argc, const char *argv[])
@@ -101,5 +146,6 @@ int main(int argc, const char *argv[])
     //string s = "3123213";
     cout << "s: " << s << endl;
     cout << "calculate: " << calculate(s) << endl;
+    cout << "calculate: " << calculate2(s) << endl;
     return 0;
 }

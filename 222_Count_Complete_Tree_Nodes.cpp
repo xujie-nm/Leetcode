@@ -70,6 +70,16 @@ int countNodes2(TreeNode* root){
         return 1 + countNodes2(root->left) + countNodes2(root->right);
 }
 
+// 计算一般树的节点的个数
+// 在这个问题中超时
+int countNodes3(TreeNode* root){
+    if(root != NULL){
+        return 1 + countNodes3(root->left) + countNodes3(root->right);
+    }else{
+        return 0;
+    }
+}
+
 int main(int argc, const char *argv[])
 {
     TreeNode n1(1);
@@ -85,6 +95,8 @@ int main(int argc, const char *argv[])
     n2.right = &n5;
     n3.left = &n6;
     n3.right = &n7;
+    cout << countNodes(&n1) << endl;
     cout << countNodes2(&n1) << endl;
+    cout << countNodes3(&n1) << endl;
     return 0;
 }

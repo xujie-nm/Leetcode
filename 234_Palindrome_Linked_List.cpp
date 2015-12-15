@@ -22,15 +22,12 @@ bool isPalindrome(ListNode *head){
     
     node = NULL; 
 
+    // 反转前半段
     for (int i = 0; i < size/2; i++) {
         tmp = mid->next;
-        //保留原链表后一个
         mid->next = node;
-        //当前的下一个修改成前一个
         node = mid;
-        //node更新
         mid = tmp;
-        //中间断了，再次接上
     }
     ListNode *right = mid, *left = node;
     if(size % 2 == 1)

@@ -36,7 +36,10 @@ bool searchMatrix(vector<vector<int> > &matrix, int target){
     return false;
 }
 
-//recursion
+// recursion
+// 首先选取数组中右上角的数字，如果等于，则返回成功
+// 如果大于要查找的数字剔除这个数字所在的列
+// 如果小于则剔除这个数字所在的行
 bool helper(vector<vector<int> > &matrix, int x, int y, int target){
     int m = matrix.size();
     if(x > m-1 || y < 0)

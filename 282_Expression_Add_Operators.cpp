@@ -46,10 +46,58 @@ vector<string> addOperators(string num, int target){
     return res;
 }
 
+// faster
+void dfs(int index, char preSign, long preNum, long val, const long target, string &tmp, const string &num, vector<string> &res){
+    const int numSize = num.size();
+    if(index >= numSize){
+        if(target == val+preNum)
+            res.push_back(tmp);
+        return;
+    }
+    // 如果等于0，curNum就从此处断开
+    long end = num[index]=='0' ? index : (numSize-1);
+    long curNum=0, newPreNum = 0, newVal = 0, oldSize = tmp.size();
+    for (int i = index; i <= end; i++) {
+        curNum = 10*curNum+num[i]-'0';
+        tmp += num[i];
+        // 这个分支分别计算三种运算符
+        if(preSign == '*'){
+            newPreNum = preNum*curNum;
+            newVal = val;
+        }else{
+            newPreNum = preSign == '+' ? curNum : -curNum;
+            newVal = val+preNum;
+        }
+        // 进入下一步
+        if(i == numSize-1){
+            dfs(i+1, ' ', newPreNum, newVal, target, tmp, num, res);
+        }else{
+            tmp += '*';
+            dfs(i+1, '*', newPreNum, newVal, target, tmp, num, res);
+
+            tmp.back() = '+';
+            dfs(i+1, '+', newPreNum, newVal, target, tmp, num, res);
+            
+            tmp.back() = '-';
+            dfs(i+1, '-', newPreNum, newVal, target, tmp, num, res);
+
+            tmp.pop_back();
+        }
+    }
+    tmp.resize(oldSize);
+}
+
+vector<string> addOperators2(string num, int target){
+    vector<string> ret;
+    string tmp;
+    dfs(0, '+', 0, 0, target, tmp, num, ret);
+    return ret;
+}
+
 int main(int argc, const char *argv[])
 {
     vector<string> res;
-    res = addOperators("1234", 25);
+    res = addOperators2("1234", 25);
     for (int i = 0; i < res.size(); i++) {
         cout << res[i] << endl;
     }

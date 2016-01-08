@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <queue>
 using namespace std;
 
 struct classcomp{
@@ -132,13 +133,43 @@ class MedianFinder2{
         multiset<int> nums;
 };
 
+// priority_queue
+class MedianFinder3{
+    public:
+        // Adds a number into the data structure
+        void addNum(int num){
+            if(maximal.size() <= minimal.size()){
+                minimal.push(num);
+                maximal.push(minimal.top());
+                minimal.pop();
+            }else{
+                maximal.push(num);
+                minimal.push(maximal.top());
+                maximal.pop();
+            }
+        }
+
+        // Returns the median of current data stream
+        double findMedian(){
+            if(maximal.size() > minimal.size()){
+                return maximal.top();
+            }else{
+                return 0.5 * (minimal.top() + maximal.top());
+            }
+        }
+
+    private:
+        priority_queue<int> maximal;
+        priority_queue<int, vector<int>, greater<int> > minimal;
+};
+
 // Your MedianFinder object will be instantiated and called as such:
 // MedianFinder mf;
 // mf.addNum(1);
 // mf.findMedian();
 int main(int argc, const char *argv[])
 {
-    MedianFinder2 mf;
+    MedianFinder3 mf;
     mf.addNum(1);
     mf.addNum(2);
     cout << "median: " << mf.findMedian() << endl;

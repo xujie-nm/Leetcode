@@ -29,6 +29,7 @@ int lengthOfLIS2(vector<int> &nums){
             res[0] = nums[i];
         else if(nums[i] > res.back())
             // 如果比最后一个大，进入
+            // 只有递增时才会有这一步
             res.push_back(nums[i]);
         else{
             // 如果是中间数，则找到其合适的位置

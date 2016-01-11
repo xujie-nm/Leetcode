@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stack>
 using namespace std;
 
 struct ListNode {
@@ -44,6 +45,33 @@ ListNode* getIntersectionNode(ListNode *headA, ListNode *headB){
     return headA;
 }
 
+// 借用两个辅助栈，
+// 把元素全部压入栈，
+// 一次出栈，最后一个相同的节点就是第一个公共节点
+ListNode* getIntersectionNode2(ListNode *headA, ListNode *headB){
+    stack<ListNode*> stackA;
+    stack<ListNode*> stackB;
+
+    while(headA != NULL){
+        stackA.push(headA);
+        headA = headA->next;
+    }
+    while(headB != NULL){
+        stackB.push(headB);
+        headB = headB->next;
+    }
+
+    ListNode* res = NULL;
+    while(!stackA.empty() 
+       && !stackB.empty()
+       && stackA.top() == stackB.top()){
+        res = stackA.top();
+        stackA.pop();
+        stackB.pop();
+    }
+    return res;
+}
+
 int main(int argc, const char *argv[])
 {
     ListNode a1(0);
@@ -65,7 +93,9 @@ int main(int argc, const char *argv[])
     cout << &c1 << endl;
 
     ListNode *res = getIntersectionNode(&a1, &b1);
+    ListNode *res2 = getIntersectionNode2(&a1, &b1);
 
     cout << res << "   " << res->val << endl;
+    cout << res2 << "   " << res2->val << endl;
     return 0;
 }

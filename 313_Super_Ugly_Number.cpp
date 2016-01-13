@@ -6,29 +6,30 @@
 #include <algorithm>
 using namespace std;
 
-// TLE
+// 112ms
 int nthSuperUglyNumber(int n, vector<int>& primes) {
     vector<int> res;
     res.push_back(1);
-    if(n == 1)
-        return res[res.size()-1];
-    unordered_map<int, int> primesIndex;
-    for(int i = 0; i < primes.size(); i++){
-        primesIndex[primes[i]] = 0;
-    }
+    int numPrimes = primes.size();
+    vector<int> indexs(numPrimes, 0);
 
-    for(int i = 1; i < n; i++){
-        int minTemp = INT_MAX;
-        for(int j = 0; j < primes.size(); j++){
-            minTemp = min(minTemp, (res[primesIndex[primes[j]]] * primes[j]));
+    while(res.size() < n){
+        int nextSuperUglyNumber = res[indexs[0]]*primes[0];
+
+        // 寻找当前最小的一个uglynumber
+        for (int i = 0; i < numPrimes; i++) {
+           nextSuperUglyNumber = min(nextSuperUglyNumber, res[indexs[i]] * primes[i]);
         }
-        res.push_back(minTemp);
-        for(int j = 0; j < primes.size(); j++){
-            if(minTemp == res[primesIndex[primes[j]]] * primes[j])
-                primesIndex[primes[j]]++;
+
+        // 找到最小的，为下标累加，为下一步做准备
+        for (int i = 0; i < numPrimes; i++) {
+            if(nextSuperUglyNumber == res[indexs[i]] * primes[i])
+                indexs[i]++;
         }
+
+        res.push_back(nextSuperUglyNumber);
     }
-    return res[res.size() - 1];
+    return res[n-1];
 }
 
 int nthSuperUglyNumber2(int n, vector<int>& primes) {
@@ -53,6 +54,7 @@ int nthSuperUglyNumber2(int n, vector<int>& primes) {
             res[i++] = cur.first;
         // 这个数加入结果，其prime所对应的下标加1
         index[cur.second]++;
+        // 在插入的时候保持没有重复
         while(hash.count(primes[cur.second] * res[index[cur.second]])){
             // 保证不会重复，和上面的第二个for一个意思
             // 如果这个数出现了，那么这个prime所对应的下标加1
@@ -69,7 +71,7 @@ int main(int argc, const char *argv[])
 {
     vector<int> primes{2, 7, 13, 19};
     //for (int i = 1; i < 50; i++) {
-        cout << nthSuperUglyNumber2(50, primes) << " ";
+        cout << nthSuperUglyNumber(50, primes) << " ";
     //}
     cout << endl;
     return 0;

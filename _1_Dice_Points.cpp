@@ -38,11 +38,55 @@ vector<double> DicePointProbaility(int number){
     return probailities;
 }
 
+/// 这次的方法的复杂度为O(N^2)
+vector<double> DicePointProbaility2(int number){
+    vector<vector<double> > probailities(2, vector<double>(6*number + 1));
+    if(number < 1)
+        return probailities[0];
+
+    // 用于循环两个数组
+    int flag = 0;
+    // 当有一个骰子
+    for (int i = 1; i <= 6; i++) {
+        probailities[flag][i] = 1;
+    }
+
+    // 从第二个骰子开始
+    for (int k = 2; k <= number; k++) {
+        // 把需要计算的骰子置为0
+        for (int i = 0; i < k; i++) {
+            probailities[1-flag][i] = 0;
+        }
+
+        // 计算当前骰子能取到的所有值
+        for (int i = k; i <= 6 * k; i++) {
+            probailities[1-flag][i] = 0;
+            // 假设当前的骰子出现的次数为i
+            // 那么他与上次骰子出现的次数的关系是：
+            // cur[i] = pre[i-1] + pre[i-2] + pre[i-3] + pre[i-4] + pre[i-5] + pre[i-6]
+            for (int j = 1; j <= i && j <= 6; j++) {
+                probailities[1-flag][i] += probailities[flag][i-j];
+            }
+        }
+
+        // 置换两个数组
+        flag = 1-flag;
+    }
+
+    double maxValue = 6;
+    double total = pow(maxValue, number);
+    for (int i = number; i <= 6 * number; i++) {
+        probailities[flag][i] /= total;
+    }
+
+    return probailities[flag];
+}
+
 int main(int argc, const char *argv[])
 {
     vector<double> probailities;
 
-    probailities = DicePointProbaility(11);
+    probailities = DicePointProbaility2(6);
 
     double sum = 0;
     for (int i = 0; i < probailities.size(); i++) {

@@ -15,7 +15,7 @@ int reverse(int x) {
     if(res_nums.size() == 10){
         if(res_nums[0] >2 || res_nums[0] < -2)
             return 0;   
-        else if(res_nums[0] == 2 || res_nums[0] == -2){
+        else if(res_nums[0] == 2 || res_nums[0] == -2){ // 检查是否大于最大数，小于最小数
             int temp = 0;
             for(vector<int>::iterator it = res_nums.begin() + 1; it != res_nums.end(); ++it){
                 temp *= 10;

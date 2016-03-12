@@ -16,12 +16,34 @@ int removeElement(int A[], int length, int elem){
     return n;
 }
 
+// from tail
+int removeElement(vector<int>& nums, int val){
+    int tail = nums.size() - 1;
+    for (int i = 0; i < nums.size(); i++) {
+        while(nums[tail] == val)
+            tail--;
+        if(nums[i] == val && i < tail){
+            int temp = nums[tail];
+            nums[tail] = nums[i];
+            nums[i] = temp;
+        }
+    }
+
+    while(1){
+        if(!nums.empty() && nums.back() == val)
+            nums.pop_back();
+        else
+            break;
+    }
+    return nums.size();
+}
+
 int main(int argc, const char *argv[])
 {
-    int a[] = {3,3};
-    int len = removeElement(a, 2, 3);
+    vector<int> a{1, 2, 3, 3, 4, 6, 7};
+    int len = removeElement(a, 3);
     cout << "len: " << len << endl;
-    for(int i = 0; i < len; i++){
+    for(int i = 0; i < a.size(); i++){
         cout << a[i] << " ";
     }
     cout << endl;

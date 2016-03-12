@@ -8,16 +8,16 @@ int maxArea(vector<int> &height) {
     int j = height.size() - 1;
     int max_area = 0;
     while(i < j){   
-    int temp;
-    temp = (j-i)*(min(height[i],height[j]));
-    //计算当前面积
-    if(temp > max_area)
-        max_area = temp;
-        //保留最大面积
-    if(height[i] > height[j])
-        j--;
-    else
-        i++;      
+        int temp;
+        temp = (j-i)*(min(height[i],height[j]));
+        //计算当前面积
+        if(temp > max_area)
+            max_area = temp;
+            //保留最大面积
+        if(height[i] > height[j])
+            j--;
+        else
+            i++;      
                 //这里有个小trick
                 //最初的想法是的复杂度是平方的
                 //但是这个trick可以帮助降低复杂度
@@ -31,6 +31,8 @@ int maxArea(vector<int> &height) {
 
 int main(int argc, const char *argv[])
 {
-    
+    vector<int> height{0, 3, 0, 1, 6, 2, 3, 1, 4, 1};
+
+    cout << "maxArea: " << maxArea(height) << endl;
     return 0;
 }

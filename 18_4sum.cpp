@@ -97,6 +97,7 @@ vector<vector<int> > fourSum2(vector<int> &num, int target){
                     if(temp_map.size() == 4)
                     {
                         bool flag = false;
+                        // 查看这个答案是否出现过
                         for(vector<vector<int> >::iterator it_vec = res_vec.begin(); 
                                 it_vec != res_vec.end(); ++it_vec){
                             map<int, int>::iterator it_temp = temp_map.begin();

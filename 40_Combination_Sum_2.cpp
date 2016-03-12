@@ -19,6 +19,7 @@ bool solve(vector<vector<int> > &res, vector<int> &can, vector<int> &sol, int po
                 continue;
 
             sol.push_back(can[i]);
+            // 这里与39不一样
             solve(res, can, sol, i+1, tar - can[i]);
             sol.pop_back();
         }
@@ -47,7 +48,7 @@ int main(int argc, const char *argv[])
     can.push_back(6);
     can.push_back(1);
     can.push_back(5);
-    res = combinationSum(can, 8);
+    res = combinationSum(can, 9);
     
     for(vector<vector<int> >::iterator it_temp = res.begin(); it_temp != res.end();
             ++it_temp){

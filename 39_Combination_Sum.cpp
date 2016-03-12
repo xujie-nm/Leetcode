@@ -12,6 +12,9 @@ bool solve(vector<vector<int> > &res, vector<int> &can, vector<int> &sol, int po
         return true;
     }
     else{
+        // 这里从pos开始，表明当前sol还可以添加当前的数；
+        // 但是不能添加之前的数
+        // 比如出现：4，3，4，这种情况
         for (int i = pos; i < can.size(); i++) {
             if(can[i] > tar)
                 return false;

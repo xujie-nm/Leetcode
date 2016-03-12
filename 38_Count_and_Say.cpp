@@ -35,7 +35,7 @@ string countAndSay(int n){
 int main(int argc, const char *argv[])
 {
     //for (int i = 0; i <5 ; i++) {
-        cout << "result: "<<countAndSay(2) << endl;
+        cout << "result: "<<countAndSay(4) << endl;
     //}
     return 0;
 }

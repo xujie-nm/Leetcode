@@ -35,6 +35,38 @@ ListNode *removeNthFromEnd(ListNode *head, int n){
     return head;
 }
 
+// Two Pointer
+ListNode* removeNthFromEnd2(ListNode* head, int n){
+    int i = 0;
+    ListNode *first = head;
+    ListNode *second = head;
+
+    while(i < n && first != NULL){
+        i++;
+        first = first->next;
+    }
+
+    if(i != n){
+        return NULL;
+    }
+    
+    // 如果删除的是头一个
+    if(first != NULL)
+        first = first->next;
+    else
+        return head->next;
+
+    while(first != NULL){
+        first = first->next;
+        second = second->next;
+    }
+
+    // 删除
+    second->next = second->next->next;
+
+    return head;
+}
+
 int main(int argc, const char *argv[])
 {
     ListNode first(1);
@@ -46,7 +78,7 @@ int main(int argc, const char *argv[])
     second.next = &third;
     third.next = &fourth;
     fourth.next = &fifth;
-    ListNode *res = removeNthFromEnd(&first, 4);
+    ListNode *res = removeNthFromEnd2(&first, 1);
     cout << "ok ok ok ok ok ok ok " << endl;
     while(res != NULL){
         cout << res->val << " ";

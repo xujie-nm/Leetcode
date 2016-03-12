@@ -62,6 +62,7 @@ ListNode *detectCycle2(ListNode *head){
             //     p1 = p3 + (K-1)*c
             // 所以这就是为什么最后要把两个快慢指针的速度置为相同后让一个指针从开始走
             // 两个指针最后能相遇的原因
+            // 也是相遇位置就是环开头的原因
             slow = head;
             while(slow != fast){
                 slow = slow->next;

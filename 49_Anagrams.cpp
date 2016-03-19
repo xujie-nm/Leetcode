@@ -2,47 +2,52 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <map> 
+#include <unordered_map>
+#include <set>
 using namespace std;
 
-vector<string> anagrams(vector<string> &strs){
-    vector<string> res;
-    if(strs.size() <= 1)
+vector<vector<string> > anagrams(vector<string> &strs){
+    vector<vector<string> > res;
+    if(strs.size() <= 1){
+        res.push_back(strs);
         return res;
-    map<string, pair<string, int> > hash;
+    }
+    
+    unordered_map<string, multiset<string> > hash;
     for (int i = 0; i < strs.size(); i++) {
         string temp = strs[i];
         sort(temp.begin(), temp.end());
-        if(hash.count(temp) ==0){
-            hash[temp].first = strs[i];
-            hash[temp].second += 1;
-        }else if(hash.count(temp) > 0){
-            res.push_back(strs[i]);
-            hash[temp].second +=1;
-        }
+        //if(hash.count(temp) ==0){
+            hash[temp].insert(strs[i]);
+        //}else if(hash.count(temp) > 0){
+        //    hash[temp].first.insert(strs[i]);
+        //}
     }
 
-    for(map<string, pair<string, int> >::iterator it = hash.begin(); it != hash.end(); ++it){
-        if(it->second.second > 1)
-            res.push_back(it->second.first);
+    for(auto it = hash.begin(); it != hash.end(); ++it){
+        vector<string> temp((it->second).begin(), (it->second).end());
+        res.push_back(temp);
     }
+    reverse(res.begin(), res.end());
     return res;
 }
 
 int main(int argc, const char *argv[])
 {
     vector<string> strs;
-    strs.push_back("tea");
-    strs.push_back("tae");
     strs.push_back("eat");
-    strs.push_back("eta");
-    strs.push_back("pen");
-    strs.push_back("pne");
-    strs.push_back("end");
-    vector<string> res = anagrams(strs);
+    strs.push_back("tea");
+    strs.push_back("tan");
+    strs.push_back("ate");
+    strs.push_back("nat");
+    strs.push_back("bat");
+    vector<vector<string> > res = anagrams(strs);
     cout << "result: " << endl;
-    for(vector<string>::iterator it = res.begin(); it != res.end(); ++it){
-        cout << *it << endl;    
+    for (int i = 0; i < res.size(); i++) {
+        for (int j = 0; j <res[i].size(); j++) {
+            cout << res[i][j] << " ";
+        }
+        cout << endl;
     }
     return 0;
 }

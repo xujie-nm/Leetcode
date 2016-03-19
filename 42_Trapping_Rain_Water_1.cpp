@@ -29,7 +29,7 @@ int trap(int A[], int n){
 
 int main(int argc, const char *argv[])
 {
-    int A[] = {5, 4, 3, 2, 1, 2, 3, 4, 5};
+    int A[] = {5, 4, 3, 2, 10, 2, 3, 4, 5};
     cout << trap(A,9) << endl;;
     return 0;
 }

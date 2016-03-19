@@ -41,7 +41,7 @@ int main(int argc, const char *argv[])
 {
     vector<int> num;
     num.push_back(1);
-    num.push_back(2);
+    num.push_back(1);
     num.push_back(3);
     vector<vector<int> > res = permute(num);
     for(vector<vector<int> >::iterator it_i = res.begin(); it_i != res.end(); ++it_i){

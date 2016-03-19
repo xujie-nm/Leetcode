@@ -4,14 +4,17 @@
 using namespace std;
 
 bool isVaild(vector<string> &temp, int n,int x, int y){
+    // 竖着没有皇后
     for (int i = 0; i < x; i++) {
         if(temp[i][y] == 'Q')
             return false;
     }
+    // 左斜线没有皇后
     for (int i = x-1, j = y-1; i >=0&&j>=0; i--,j--) {
         if(temp[i][j] == 'Q')
             return false;
     }
+    // 右斜线没有皇后
     for (int i = x-1,j = y+1; i >=0&&j<n; i--, j++) {
         if(temp[i][j] == 'Q')
             return false;
@@ -52,7 +55,7 @@ vector<vector<string> > solveNQueen(int n){
 int main(int argc, const char *argv[])
 {
     vector<vector<string> > res;
-    res = solveNQueen(8);
+    res = solveNQueen(4);
 
     for(vector<vector<string> >::iterator it_i = res.begin(); it_i != res.end(); ++it_i){
         for(vector<string>::iterator it = (*it_i).begin(); it != (*it_i).end(); ++it){

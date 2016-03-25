@@ -13,7 +13,7 @@ struct TreeNode {
 // recursive
 vector<TreeNode*> helper(int low, int high);
 
-vector<TreeNode*> generateTrees(int n){
+vector<TreeNode*> generateTreesR(int n){
     vector<TreeNode*> res;
     res = helper(1, n);
     return res;
@@ -48,6 +48,8 @@ vector<TreeNode*> helper(int low, int high){
 }
 
 // dp
+TreeNode* copy(TreeNode *root);
+
 vector<TreeNode*> generateTrees(int n){
     vector<TreeNode*> tmp;
     vector<TreeNode*> ret;

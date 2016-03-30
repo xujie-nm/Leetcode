@@ -27,6 +27,29 @@ bool isBalanced(TreeNode* root){
         return isBalanced(root->left) && isBalanced(root->right);
 }
 
+// faster way 用一个中间变量来存储深度
+bool isBalancedHelper(TreeNode* root, int& depth){
+    if(root == NULL){
+        depth = 0;
+        return true;
+    }
+    int left, right;
+    if(isBalancedHelper(root->left, left) &&
+       isBalancedHelper(root->right, right)){
+        int diff = left - right;
+        if(diff >= -1 && diff <= 1){
+            depth = 1 + (left > right ? left : right);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isBalanced2(TreeNode* root){
+    int depth = 0;
+    return isBalancedHelper(root, depth);
+}
+
 int main(int argc, const char *argv[])
 {
     TreeNode n1(1);
@@ -44,5 +67,6 @@ int main(int argc, const char *argv[])
     n3.right = &n7;
 
     cout << isBalanced(&n1) << endl;
+    cout << isBalanced2(&n1) << endl;
     return 0;
 }

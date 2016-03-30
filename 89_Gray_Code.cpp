@@ -33,7 +33,7 @@ vector<int> grayCode(int n){
 int main(int argc, const char *argv[])
 {
     vector<int> res;
-    res = grayCode(3);
+    res = grayCode(2);
     for (int i = 0; i < res.size(); i++) {
         cout << res[i] << " ";
     }

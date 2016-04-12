@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <unordered_set>
 using namespace std;
 
 int longestConsecutive(vector<int> &nums){
@@ -31,6 +32,24 @@ int longestConsecutive(vector<int> &nums){
     return max;
 }
 
+int longestConsecutive2(vector<int> &num){
+    unordered_set<int> temp(num.begin(), num.end());
+    int res = 1;
+
+    for (int i = 0; i < num.size(); i++) {
+        if(temp.find(num[i]) == temp.end())
+            continue;
+        temp.erase(num[i]);
+        int prev = num[i]-1, next = num[i]+1;
+        while(temp.find(prev) != temp.end())
+            temp.erase(prev--);
+        while(temp.find(next) != temp.end())
+            temp.erase(next++);
+        res = max(res, next-prev-1);
+    }
+    return res;
+}
+
 int main(int argc, const char *argv[])
 {
     vector<int> nums;
@@ -43,5 +62,6 @@ int main(int argc, const char *argv[])
     nums.push_back(0);
     nums.push_back(-1);
     cout << longestConsecutive(nums) << endl;
+    cout << longestConsecutive2(nums) << endl;
     return 0;
 }

@@ -41,6 +41,22 @@ ListNode* reverseList2(ListNode* head){
     return Head->next;
 }
 
+ListNode* reverseList3(ListNode* head){
+    if(head == NULL || head->next == NULL)
+        return head;
+    ListNode* pre = head;
+    ListNode* cur  = pre->next;
+
+    pre->next = NULL;
+    while(cur != NULL){
+        ListNode* temp = cur->next;
+        cur->next = pre;
+        pre = cur;
+        cur = temp;
+    }
+    return pre;
+}
+
 int main(int argc, const char *argv[])
 {
     ListNode n1(1);
@@ -54,7 +70,7 @@ int main(int argc, const char *argv[])
     n4.next = &n5;
 
     ListNode* res;
-    res = reverseList2(&n1);
+    res = reverseList3(&n1);
     while(res != NULL){
         cout << res->val << " ";
         res = res->next;

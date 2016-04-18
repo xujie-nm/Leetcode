@@ -32,6 +32,28 @@ vector<int> postorderTraversal(TreeNode *root){
     return res;
 }
 
+// 第二个其实还是第一个的变形
+vector<int> postorderTraversal1(TreeNode* root){
+    vector<int> res;
+    if(!root)
+        return res;
+
+    stack<TreeNode*> temp;
+    temp.push(root);
+
+    TreeNode* tempNode = NULL;
+    while(!temp.empty()){
+        tempNode = temp.top();
+        temp.pop();
+        res.insert(res.begin(), tempNode->val);
+        if(tempNode->left)
+            temp.push(tempNode->left);
+        if(tempNode->right)
+            temp.push(tempNode->right);
+    }
+    return res;
+}
+
 vector<int> postorderTraversal2(TreeNode *root){
     vector<int> res;
     stack<pair<TreeNode*, bool> > temp;
@@ -65,7 +87,7 @@ int main(int argc, const char *argv[])
     n2.left = &n3;
 
     vector<int> res;
-    res = postorderTraversal2(&n1);
+    res = postorderTraversal1(&n1);
     for (int i = 0; i < res.size(); i++) {
         cout << res[i] << " ";
     }

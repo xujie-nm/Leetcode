@@ -1,0 +1,21 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+//   1 2 3 4 | 5 6 7 8 | 9 10 11 12 | 13 14 15 16 | 17 18 19 20 | 21 22 23 24 | 25 26 27 28 | 29 30 31 32|
+// 0x   5         5          5             5             5             5             5             5
+// = 0 1 0 1 | 0 1 0 1 | 0  1  0  1 |  0  1  0  1 |  0  1  0  1 |  0  1  0  1 |  0  1  0  1 |  0  1  0  1|
+// 以上
+bool isPowerOfFour(int num){
+    if((num & (num-1)) == 0){
+        return num & 0x55555555;
+    }
+    return false;
+}
+
+int main(int argc, const char *argv[])
+{
+    cout << isPowerOfFour(16) << endl;
+    cout << isPowerOfFour(5) << endl;
+    return 0;
+}

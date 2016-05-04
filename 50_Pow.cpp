@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-double po(double x, int n){
+double power1(double x, unsigned long long n){
     double res = 1;
     while(n > 0 ){
         if(n%2 ==1){
@@ -21,20 +21,35 @@ double po(double x, int n){
     return res;
 }
 
+double power2(double base, unsigned long long exponent){
+    if(exponent == 0)
+        return 1;
+    else if(exponent == 1)
+        return base;
+    else{
+        double temp = power1(base, exponent/2);
+        if(exponent % 2 == 1)
+            return temp*temp*base;
+        else
+            return temp*temp;
+    }   
+}
+
 double pow(double x, int n){
     if(n < 0) 
-        return 1.0/po(x, -n);
+        return 1.0/power1(x, -n);
     else 
-        return po(x, n);
+        return power1(x, n);
 }
 
 int main(int argc, const char *argv[])
 {
-    cout << pow(2, 6) << endl;
-    cout << pow(2, -6) << endl;
-    cout << pow(2, 2) << endl;
-    cout << pow(2, -2) << endl;
-    cout << pow(2, 0) << endl;
+    //cout << pow(2, 6) << endl;
+    //cout << pow(2, -6) << endl;
+    //cout << pow(2, 2) << endl;
+    //cout << pow(2, -2) << endl;
+    //cout << pow(2, 0) << endl;
+    cout << pow(2, -2147483648) << endl;
 
     return 0;
 }

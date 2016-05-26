@@ -1,12 +1,11 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
-#include <unordered_set>
+#include <unordered_map>
 using namespace std;
 
-
 // sort, not effective
-vector<int> intersection(vector<int>& nums1, vector<int>& nums2){
+vector<int> intersect(vector<int>& nums1, vector<int>& nums2){
     vector<int> res;
     if(nums1.empty() || nums2.empty())
         return res;
@@ -18,45 +17,48 @@ vector<int> intersection(vector<int>& nums1, vector<int>& nums2){
     auto it2 = nums2.begin();
     while(it1 != nums1.end() && it2 != nums2.end()){
         if(*it1 == *it2){
-            if(res.empty() || *it1 != res.back())
-                res.push_back(*it1);
+            res.push_back(*it1);
             ++it1;
             ++it2;
         }else if(*it1 < *it2)
             ++it1;
         else
             ++it2;
-
     }
 
     return res;
 }
 
 // hash, more effective
-vector<int> intersection2(vector<int>& nums1, vector<int>& nums2){
+vector<int> intersect2(vector<int>& nums1, vector<int>& nums2){
+    vector<int> res;
     if(nums1.empty() || nums2.empty())
-        return vector<int> ();
-   
-    unordered_set<int> hash;
-    unordered_set<int> res;
+        return res;
 
-    for (int i = 0; i < nums1.size(); i++)
-        hash.insert(nums1[i]);
+    unordered_map<int, int> hash;
 
-    for (int i = 0; i < nums2.size(); i++) 
-        if(hash.count(nums2[i]) > 0)
-            res.insert(nums2[i]);
-    return vector<int>(res.begin(), res.end());
+    for (int i = 0; i < nums2.size(); i++)
+        hash[nums2[i]]++;
+
+    for (int i = 0; i < nums1.size(); i++) {
+        if(hash.count(nums1[i]) > 0){
+            res.push_back(nums1[i]);
+            hash[nums1[i]]--;
+            if(hash[nums1[i]] == 0)
+                hash.erase(nums1[i]);
+        }
+    }
+
+    return res;
 }
 
 int main(int argc, const char *argv[])
 {
-    vector<int> nums1{4,9,5};
-    vector<int> nums2{9,4,9,8,4};
-
+    vector<int> nums1{1,2,2,1};
+    vector<int> nums2{2,2};
     vector<int> res;
-    res = intersection2(nums1, nums2);
 
+    res = intersect2(nums1, nums2);
     for (int i = 0; i < res.size(); i++) {
         cout << res[i] << " ";
     }
